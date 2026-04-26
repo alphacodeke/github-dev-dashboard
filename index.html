@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>GitHub DevIQ | Developer Intelligence Dashboard</title>
+  <!-- Tailwind CSS + Font Awesome + Chart.js + Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="text-gray-200 antialiased">
+
+  <!-- Sticky Navbar -->
+  <nav class="sticky top-0 z-50 backdrop-blur-xl bg-black/40 border-b border-white/10 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-2">
+        <i class="fab fa-github text-3xl text-blue-400"></i>
+        <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">DevIQ<span class="text-blue-400"> Dashboard</span></span>
+      </div>
+      <div class="flex gap-3 flex-wrap items-center">
+        <div class="relative">
+          <input type="text" id="searchInput" placeholder="GitHub username..." value="alphacodeke" class="w-64 bg-gray-900/80 border border-gray-700 rounded-full py-2 px-4 pl-10 text-sm focus:outline-none focus:border-blue-500 transition">
+          <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-xs"></i>
+        </div>
+        <button id="searchBtn" class="btn-primary px-5 py-2 rounded-full text-sm font-semibold shadow-md flex items-center gap-2"><i class="fas fa-chart-line"></i> Analyze</button>
+        <button id="compareToggle" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-full text-sm transition flex items-center gap-2"><i class="fas fa-balance-scale"></i> Compare</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <!-- Hero Typing -->
+    <div class="glass-card p-6 text-center mb-2">
+      <h1 id="heroText" class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent typing"></h1>
+      <p class="text-gray-400 mt-2">Developer intelligence & analytics · Score · Compare · Export</p>
+    </div>
+
+    <!-- Main Dashboard (Profile+Stats) -->
+    <div id="dashboard" class="space-y-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Profile Card -->
+        <div class="glass-card p-6 lg:col-span-1" id="profileCard">
+          <div class="animate-pulse flex flex-col items-center space-y-4">
+            <div class="rounded-full w-28 h-28 skeleton"></div>
+            <div class="h-6 w-40 skeleton"></div>
+            <div class="h-4 w-32 skeleton"></div>
+            <div class="h-20 w-full skeleton"></div>
+          </div>
+        </div>
+        <!-- Developer Score & stats -->
+        <div class="glass-card p-6 lg:col-span-2" id="scoreCard">
+          <div class="space-y-4">
+            <div class="h-8 w-48 skeleton"></div>
+            <div class="h-32 w-full skeleton"></div>
+            <div class="grid grid-cols-2 gap-3"><div class="h-12 skeleton"></div><div class="h-12 skeleton"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Repository & Language + Activity -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="glass-card p-5" id="langChartCard"><div class="h-64 skeleton"></div></div>
+        <div class="glass-card p-5" id="insightCard"><div class="h-64 skeleton"></div></div>
+      </div>
+
+      <!-- Top Projects & Categorized repos -->
+      <div class="glass-card p-5" id="reposCard"><div class="space-y-3"><div class="h-6 w-40 skeleton"></div><div class="grid grid-cols-1 md:grid-cols-2 gap-3"><div class="h-24 skeleton"></div><div class="h-24 skeleton"></div></div></div></div>
+
+      <!-- Compare Section (hidden by default) -->
+      <div id="compareSection" class="glass-card p-6 hidden transition-all duration-300">
+        <h3 class="text-xl font-semibold mb-4 flex items-center gap-2"><i class="fas fa-crosshairs"></i> Developer Battle</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <input type="text" id="compareUser1" placeholder="User A (e.g. octocat)" class="bg-gray-800 border border-gray-700 rounded-xl px-4 py-2">
+          <input type="text" id="compareUser2" placeholder="User B (e.g. gaearon)" class="bg-gray-800 border border-gray-700 rounded-xl px-4 py-2">
+        </div>
+        <button id="runCompare" class="bg-indigo-600 hover:bg-indigo-500 px-5 py-2 rounded-xl text-sm transition">Compare Now</button>
+        <div id="compareResult" class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+      </div>
+
+      <!-- Export Canvas action -->
+      <div class="flex justify-end gap-3">
+        <button id="exportPngBtn" class="bg-gray-800 hover:bg-gray-700 px-5 py-2 rounded-full flex items-center gap-2 transition"><i class="fas fa-camera"></i> Export as PNG</button>
+      </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 space-y-2"></div>
+  </main>
+
+  <footer class="border-t border-white/10 mt-16 py-6 text-center text-gray-400 text-sm">
+   Designed & Developed by
+    <a href="https://anthonyke.netlify.app/" target="_blank" class="text-blue-400 hover:underline">Anthony Karanja</a> · GitHub Intelligence Dashboard
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

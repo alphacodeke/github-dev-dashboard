@@ -1,0 +1,14 @@
+* { font-family: 'Inter', sans-serif; }
+    body { background: #0a0c10; }
+    .glass-card { background: rgba(22, 27, 34, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(56, 68, 82, 0.5); border-radius: 28px; transition: all 0.25s ease; }
+    .glass-card:hover { border-color: rgba(88, 166, 255, 0.5); box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.5); transform: translateY(-2px); }
+    .btn-primary { background: linear-gradient(135deg, #238636, #2ea043); transition: 0.2s; }
+    .btn-primary:hover { filter: brightness(1.1); transform: scale(0.98); }
+    .skeleton { background: linear-gradient(90deg, #1e252e 25%, #2d3748 50%, #1e252e 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 16px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #161b22; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: #3d4a5c; border-radius: 10px; }
+    .badge-glow { background: radial-gradient(circle at 30% 20%, rgba(56,139,253,0.2), transparent); }
+    .typing::after { content: '|'; animation: blink 1s step-end infinite; margin-left: 2px; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
