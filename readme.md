@@ -4,7 +4,7 @@ A modern, responsive SaaS dashboard that provides deep analytics and insights fo
 
 ## Live Demo
 
-Visit the live dashboard: [GitHub DevIQ Dashboard](#)
+Visit the live dashboard: [GitHub DevIQ Dashboard](https://devcompare.netlify.app/)
 
 ## Features
 
